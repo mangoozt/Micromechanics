@@ -1,49 +1,24 @@
-def inverse_tensor(t):
-    delta = 2 * (t[0] * t[5] - t[2] * t[3])
-    i_t = [0] * 6
-    i_t[0] = 0.5 * t[5] / delta
-    i_t[1] = 1 / t[1]
-    i_t[2] = -t[5] / delta
-    i_t[3] = -t[5] / delta
-    i_t[4] = 4 / t[4]
-    i_t[5] = 2 * t[0] / delta
-    return i_t
+import numpy as np
 
 
-def t_multiply(t1, t2):
-    t_n = [0] * 6
-    if t1[0] != 0:
-        if t2[0] != 0:
-            t_n[0] += 2 * t1[0] * t2[0]
+def inverse_tensor(A):
+    delta_inv = .5 / (A[0] * A[5] - A[2] * A[3])
+    Ai = np.zeros(6)
+    Ai[0] = .5 * A[5] * delta_inv
+    Ai[1] = 1 / A[1]
+    Ai[2] = -A[5] * delta_inv
+    Ai[3] = Ai[2]
+    Ai[4] = 4 / A[4]
+    Ai[5] = 2 * A[0] * delta_inv
+    return Ai
 
-        if t2[2] != 0:
-            t_n[2] += 2 * t1[0] * t2[2]
 
-    if (t1[1] != 0) & (t2[1] != 0):
-        t_n[1] += t1[1] * t2[1]
-
-    if t1[2] != 0:
-        if t2[3] != 0:
-            t_n[0] += t1[2] * t2[3]
-
-        if t2[5] != 0:
-            t_n[2] += t1[2] * t2[5]
-
-    if t1[3] != 0:
-        if t2[0] != 0:
-            t_n[3] += 2 * t1[3] * t2[0]
-
-        if t2[2] != 0:
-            t_n[5] += 2 * t1[3] * t2[2]
-
-    if (t1[4] != 0) & (t2[4] != 0):
-        t_n[4] += 0.5 * t1[4] * t2[4]
-
-    if t1[5] != 0:
-        if t2[3] != 0:
-            t_n[3] += t1[5] * t2[3]
-
-        if t2[5] != 0:
-            t_n[5] += t1[5] * t2[5]
-
-    return t_n
+def multiply(A, B):
+    Ai = np.zeros(6)
+    Ai[0] = A[0] * B[0] * 2 + A[2] * B[3]
+    Ai[1] = A[1] * B[1]
+    Ai[2] = A[0] * B[2] * 2 + A[2] * B[5]
+    Ai[3] = A[3] * B[0] * 2 + A[5] * B[3]
+    Ai[4] = A[4] * B[4] * .5
+    Ai[5] = A[3] * B[2] * 2 + A[5] * B[5]
+    return Ai
