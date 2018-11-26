@@ -6,8 +6,8 @@ def inverse_tensor(A):
     Ai = np.zeros(6)
     Ai[0] = .5 * A[5] * delta_inv
     Ai[1] = 1 / A[1]
-    Ai[2] = -A[5] * delta_inv
-    Ai[3] = Ai[2]
+    Ai[2] = -A[2] * delta_inv
+    Ai[3] = -A[3]* delta_inv
     Ai[4] = 4 / A[4]
     Ai[5] = 2 * A[0] * delta_inv
     return Ai
